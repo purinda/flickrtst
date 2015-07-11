@@ -1,0 +1,15 @@
+<phpunit colors="true" verbose="true">
+    <testsuites>
+        <testsuite name="flickr-test-app">
+            <directory>./app/Tests/</directory>
+        </testsuite>
+        <testsuite name="flickr-lib">
+            <directory>./app/lib/Flickr/Tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <blacklist>
+            <directory>./vendor/</directory>
+        </blacklist>
+    </filter>
+</phpunit>

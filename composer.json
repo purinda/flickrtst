@@ -1,0 +1,28 @@
+{
+    "name": "flickr-test",
+    "license": "MIT",
+    "type": "project",
+    "description": "an test application for the flickr api",
+    "authors": [
+        {
+            "name"    : "Purinda Gunasekara",
+            "email"   : "purinda@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "autoload-dev": {
+        "psr-0": { "": "tests/" }
+
+    },
+    "require": {
+        "php": ">=5.5.12"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.7.*"
+    },
+    "config": {
+        "config-dir": "config"
+    }
+}
