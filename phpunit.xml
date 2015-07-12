@@ -1,10 +1,14 @@
-<phpunit colors="true" verbose="true">
+<phpunit
+    colors="true"
+    verbose="true"
+    bootstrap="vendor/autoload.php"
+>
     <testsuites>
         <testsuite name="flickr-test-app">
-            <directory>./app/Tests/</directory>
+            <directory>./src/FlickrTestApp/Tests/</directory>
         </testsuite>
-        <testsuite name="flickr-lib">
-            <directory>./app/lib/Flickr/Tests/</directory>
+        <testsuite name="framework-lib">
+            <directory>./src/lib/Framework/Tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
