@@ -40,8 +40,7 @@ class Resolver
      */
     public function handle(Request $request)
     {
-
-        $route_params = $this->_router->match();
+        $route_params = $this->_router->match($request->getUri());
         $route  = $route_params['route'];
         $params = $route_params['params'];
 

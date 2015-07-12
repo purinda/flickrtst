@@ -31,15 +31,17 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request('/someroute/', 'GET', []);
         $response = $this->resolver->handle($request);
-die('asd');
-        $this->assertEquals($response->getContent(), 'Hello World');
+
+        $this->assertEquals($response->getContent(), 'Hello World!');
     }
 
     /**
      * This function will be resolved from the above test
      */
-    public function shouldBeResolved()
+    public function shouldBeResolvedAction()
     {
-        return new Response('Hello World');
+        $response = new Response();
+        $response->setContent('Hello World!');
+        return $response;
     }
 }

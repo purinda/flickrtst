@@ -31,4 +31,14 @@ class Response
 
         return $this;
     }
+
+    /**
+     * Return current content set in the Response object.
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->_content;
+    }
 }
