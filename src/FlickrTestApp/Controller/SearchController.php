@@ -9,9 +9,13 @@ use Flickr\Service\PhotoSearch;
 
 class SearchController extends AbstractController
 {
+
+    /**
+     * Responsible for handling search queries
+     * @return Framework\Response
+     */
     public function searchAction()
     {
-
         $query = $this->request->getParameter('query');
         $page  = $this->request->getParameter('page');
 
