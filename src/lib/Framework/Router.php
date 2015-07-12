@@ -2,10 +2,23 @@
 
 namespace Framework;
 
-class Router {
+class Router
+{
 
     protected $_basepath    = '/';
     protected $_routes      = [];
+
+    /**
+     * Build an instance of the Router with supplied routes
+     *
+     * @param array $routes
+     */
+    public function __construct(array $routes = [])
+    {
+        foreach ($routes as $route_name => $callback) {
+            $this->map($route_name, $callback);
+        }
+    }
 
     /**
      * Add custom route with the callback to be run.

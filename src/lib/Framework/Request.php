@@ -41,7 +41,10 @@ class Request
      */
     public static function fromCurrent()
     {
-        $request = new static('', self::METHOD_GET, []);
+        $params  = array_merge($_GET, $_POST);
+
+        $request = new static($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD'], $params);
+
         return $request;
     }
 

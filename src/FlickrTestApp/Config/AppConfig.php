@@ -8,8 +8,9 @@ class AppConfig
     const FLICKR_SECRET  = 'db6fa4d32ff36e35';
 
     public static $routes = [
-        'search/[]' => '',
+        '/' => [
+            'FlickrTestApp\\Controller\\HomeController' => 'index'
+        ],
     ];
-
 
 }
