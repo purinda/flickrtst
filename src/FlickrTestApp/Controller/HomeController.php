@@ -9,7 +9,7 @@ class HomeController extends AbstractController
 {
     public function indexAction()
     {
-
+        return $this->render(__DIR__ . '/../Views/home.php.tpl', ['test' => 'Hello']);
     }
 
 }

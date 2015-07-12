@@ -4,6 +4,8 @@ namespace Framework;
 
 class Resolver
 {
+    const CONTROLLER_METHOD_SUFIX = 'Action';
+
     protected $_router = null;
 
     /**
@@ -33,13 +35,29 @@ class Resolver
      * Response object.
      *
      * @param  Request  $request
+     * @throws InvalidHttpResponse
      * @return Response
      */
     public function handle(Request $request)
     {
         $route = $this->_router->match();
 
-        var_dump($route);
-        return new Response();
+        $func       = reset($route) . self::CONTROLLER_METHOD_SUFIX;
+        $class_name = key($route);
+        $controller = new $class_name($request);
+
+        $response = call_user_func_array(
+            [
+                $controller,
+                $func,
+            ],
+            []
+        );
+
+        if ($response instanceof Response) {
+            return $response;
+        } else {
+            throw new InvalidHttpResponse();
+        }
     }
 }

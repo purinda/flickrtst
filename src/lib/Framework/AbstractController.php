@@ -12,11 +12,11 @@ abstract class AbstractController
      *
      * @var Request
      */
-    protected $request;
+    public $request;
 
-    protected function __construct()
+    public function __construct(Request $request)
     {
-
+        $this->request = $request;
     }
 
     /**
@@ -28,7 +28,7 @@ abstract class AbstractController
      * @throws TemplateNotFoundException
      * @return Response
      */
-    protected function render($template_filepath, array $data = [])
+    public function render($template_filepath, array $data = [])
     {
         if (!file_exists($template_filepath)) {
             throw new TemplateNotFoundException();

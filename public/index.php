@@ -33,4 +33,4 @@ $response = $resolver->handle($request);
 // Dispatch the response
 $response->dispatch();
 
-var_dump($_SERVER, $_GET, $_POST);
+// var_dump($_SERVER, $_GET, $_POST);
