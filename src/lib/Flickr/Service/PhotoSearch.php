@@ -38,11 +38,11 @@ class PhotoSearch
      * URLs to the image variations.
      *
      * @param  string  $query
-     * @param  int     $page_size
      * @param  integer $page
+     * @param  int     $page_size
      * @return array
      */
-    public function search($query, $page_size = self::PER_PAGE, $page = 1)
+    public function search($query, $page = 1, $page_size = self::PER_PAGE)
     {
         $json    = $this->_photos->search($query, FlickrPhotos::MEDIATYPE_PHOTOS, $page_size, $page);
         $results = json_decode($json)->photos;
@@ -52,15 +52,34 @@ class PhotoSearch
             return null;
         }
 
-        $photos = [];
+        $photos = [
+            'items'       => [],
+            'total_pages' => $results->total,
+            'page'        => $page,
+        ];
 
-        foreach ($results->photo as $photo) {
-            $var_json = $this->_photos->getSizes($photo->id);
-            $variations = json_decode($var_json);
+        foreach ($results->photo as $raw_photo) {
+            $variations = json_decode($this->_photos->getSizes($raw_photo->id))->sizes;
 
-            $photo_variation = new PhotoVariation($photo->id);
-            $photo_variation->setTitle($photo->title);
+            $photo = new Photo($raw_photo->id);
+            $photo->setTitle($raw_photo->title);
+
+            foreach ($variations->size as $variation) {
+                $photo_variation = new PhotoVariation($variation->label);
+                $photo_variation
+                    ->setWidth($variation->width)
+                    ->setHeight($variation->height)
+                    ->setSource($variation->source)
+                    ->setUrl($variation->url)
+                ;
+
+                $photo->addVariation($photo_variation);
+            }
+
+            $photos['items'][] = $photo;
         }
+
+        return $photos;
     }
 
 }

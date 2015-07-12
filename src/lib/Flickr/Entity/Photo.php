@@ -88,6 +88,22 @@ class Photo
         return $this;
     }
 
+
+    /**
+     * Return a variation of the image based on the label provided.
+     *
+     * @param string $label
+     * @return PhotoVariation
+     */
+    public function getVariation($label)
+    {
+        if ($this->hasVariation($label)) {
+            return $this->_variations[$label];
+        }
+
+        return null;
+    }
+
     /**
      * Add a PhotoVariation keyed with the variation label.
      *
@@ -96,7 +112,7 @@ class Photo
      */
     public function addVariation(PhotoVariation $variation)
     {
-        if (!isset($this->_variations[$variation->getLabel()])) {
+        if (!$this->hasVariation($variation->getLabel())) {
             $this->_variations[$variation->getLabel()] = $variation;
         }
 

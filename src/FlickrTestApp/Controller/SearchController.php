@@ -18,11 +18,19 @@ class SearchController extends AbstractController
         $flickr_photos = new FlickrPhotos(AppConfig::FLICKR_API_KEY);
         $photo_search = new PhotoSearch($flickr_photos);
 
-        var_dump($photo_search->search($query));
+        if ((int) $page <= 0) {
+            $page = 1;
+        }
+
+        $photos = $photo_search->search($query, (int) $page);
+
         return $this->render(
             __DIR__ . '/../Views/results.php.tpl',
             [
-                'query' => $query,
+                'query'  => $query,
+                'photos' => $photos['items'],
+                'page'   => $photos['page'],
+                'pages'  => $photos['total_pages'],
             ]
         );
     }
