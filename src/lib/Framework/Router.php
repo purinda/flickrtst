@@ -47,12 +47,16 @@ class Router
     /**
      * Match current request URL within the named routes stored.
      *
+     * @param  $uri
      * @return array|null return an array with matched route details or NULL on failure.
      */
-    public function match()
+    public function match($uri = null)
     {
         $placeholder_regex = '/({[a-z0-9]+})\/?/';
-        $uri = $_SERVER['REQUEST_URI'];
+
+        if (null === $uri) {
+            $uri = $_SERVER['REQUEST_URI'];
+        }
 
         // Remove GET params from URI
         $uri = strtok($uri, '?');
