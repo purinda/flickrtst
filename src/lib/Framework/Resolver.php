@@ -35,7 +35,7 @@ class Resolver
      * Response object.
      *
      * @param  Request  $request
-     * @throws InvalidHttpResponse
+     * @throws InvalidHttpResponseException
      * @return Response
      */
     public function handle(Request $request)
@@ -57,7 +57,7 @@ class Resolver
         if ($response instanceof Response) {
             return $response;
         } else {
-            throw new InvalidHttpResponse();
+            throw new InvalidHttpResponseException();
         }
     }
 }
