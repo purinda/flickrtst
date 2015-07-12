@@ -6,6 +6,7 @@ use Framework\Router;
 use Framework\Request;
 use Framework\Resolver;
 use Framework\Response;
+use Framework\Exception\InvalidHttpMethodException;
 
 class ResolverTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,6 +34,14 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
         $response = $this->resolver->handle($request);
 
         $this->assertEquals($response->getContent(), 'Hello World!');
+    }
+
+    /**
+     * @expectedException Framework\Exception\InvalidHttpMethodException
+     */
+    public function testInvalidMethodException()
+    {
+        $request = new Request('/someroute/', 'PUT', []);
     }
 
     /**
