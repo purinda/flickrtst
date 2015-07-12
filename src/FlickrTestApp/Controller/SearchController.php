@@ -29,19 +29,8 @@ class SearchController extends AbstractController
         $photos = $photo_search->search($query, (int) $page);
 
         // Build Prev|Next links
-        $prev = '/search/?' . http_build_query(
-            [
-                'query' => $query,
-                'page'  => ($page == 1) ?: (int) $page - 1,
-            ]
-        );
-
-        $next = '/search/?' . http_build_query(
-            [
-                'query' => $query,
-                'page'  => ($photos['total_pages'] == $page) ?: (int) $page + 1,
-            ]
-        );
+        $prev = $this->buildPrevLink($page, $query);
+        $next = $this->buildNextLink($photos['total_pages'], $page, $query);
 
         return $this->render(
             __DIR__ . '/../Views/results.php.tpl',
@@ -54,4 +43,38 @@ class SearchController extends AbstractController
         );
     }
 
+    /**
+     * Buld "Next" page link used in the pagination bar
+     *
+     * @param  int    $total
+     * @param  int    $page
+     * @param  string $query
+     * @return string
+     */
+    public function buildNextLink($total, $page, $query)
+    {
+        return '/search/?' . http_build_query(
+            [
+                'query' => $query,
+                'page'  => ($total == $page) ?: (int) $page + 1,
+            ]
+        );
+    }
+
+    /**
+     * Buld "Prev" page link used in the pagination bar
+     *
+     * @param  int    $page
+     * @param  string $query
+     * @return string
+     */
+    public function buildPrevLink($page, $query)
+    {
+        return '/search/?' . http_build_query(
+            [
+                'query' => $query,
+                'page'  => ($page == 1) ?: (int) $page - 1,
+            ]
+        );
+    }
 }
