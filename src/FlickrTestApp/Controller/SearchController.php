@@ -28,9 +28,12 @@ class SearchController extends AbstractController
 
         $photos = $photo_search->search($query, (int) $page);
 
-        // Build Prev|Next links
-        $prev = $this->buildPrevLink($page, $query);
-        $next = $this->buildNextLink($photos['total_pages'], $page, $query);
+        // Build Prev|Next links.
+        //
+        // * I would move this to a service/helper but to keep this app simple I have implemented
+        //   two functions within the controller
+        $prev = self::buildPrevLink($page, $query);
+        $next = self::buildNextLink($photos['total_pages'], $page, $query);
 
         return $this->render(
             __DIR__ . '/../Views/results.php.tpl',
@@ -51,7 +54,7 @@ class SearchController extends AbstractController
      * @param  string $query
      * @return string
      */
-    public function buildNextLink($total, $page, $query)
+    public static function buildNextLink($total, $page, $query)
     {
         return '/search/?' . http_build_query(
             [
@@ -68,7 +71,7 @@ class SearchController extends AbstractController
      * @param  string $query
      * @return string
      */
-    public function buildPrevLink($page, $query)
+    public static function buildPrevLink($page, $query)
     {
         return '/search/?' . http_build_query(
             [
