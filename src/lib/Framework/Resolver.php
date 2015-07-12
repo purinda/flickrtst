@@ -40,7 +40,10 @@ class Resolver
      */
     public function handle(Request $request)
     {
-        $route = $this->_router->match();
+
+        $route_params = $this->_router->match();
+        $route  = $route_params['route'];
+        $params = $route_params['params'];
 
         $func       = reset($route) . self::CONTROLLER_METHOD_SUFIX;
         $class_name = key($route);
@@ -51,7 +54,7 @@ class Resolver
                 $controller,
                 $func,
             ],
-            []
+            [$params]
         );
 
         if ($response instanceof Response) {

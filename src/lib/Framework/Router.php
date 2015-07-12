@@ -4,7 +4,6 @@ namespace Framework;
 
 class Router
 {
-
     protected $_basepath    = '/';
     protected $_routes      = [];
 
@@ -52,16 +51,77 @@ class Router
      */
     public function match()
     {
-        if (isset($_SERVER['REQUEST_URI'])) {
-            $path = $_SERVER['REQUEST_URI'];
-        } else {
-            $path = self::BASEPATH;
+        $placeholder_regex = '/({[a-z0-9]+})\/?/';
+        $uri = $_SERVER['REQUEST_URI'];
+
+        // Special case for base path
+        if ($uri == $this->_basepath) {
+            return [
+                'route'  => $this->_routes[$uri],
+                'params' => null,
+            ];
         }
 
-        if (isset($this->_routes[$path])) {
-            return $this->_routes[$path];
-        } else {
-            throw new NotFoundHttpException();
+        // Match placeholders
+        foreach ($this->_routes as $route => $controller_action) {
+            $matched = false;
+
+            // Ignore matching basepath
+            if ($route == $this->_basepath) {
+                continue;
+            }
+
+            // Routes with placeholders
+            if (preg_match_all($placeholder_regex, $route, $matches)) {
+                $placeholders = $matches[1];
+
+                // Build a regex for matching URI params
+                foreach ($placeholders as &$placeholder) {
+                    $route = str_replace($placeholder, '(.*)', $route);
+                }
+
+                // ending / in an URI is ignored for the sake of simplicity of this router
+                // by adding an extra / at the end if it exists within the URI itself.
+                if ('/' == substr($uri, -1)) {
+                    $route .= '/';
+                }
+
+                // Fix ending delimeter for preg_match
+                $route = '/' . addcslashes(substr($route, 1), '/') . '/';
+
+                // Route matched
+                if (preg_match($route, $uri, $params)) {
+                    unset($params[0]);
+
+                    if (count($params) == count($placeholders)) {
+                        $matched = true;
+                    }
+                }
+
+                if (true === $matched) {
+                    return [
+                        'route'  => $controller_action,
+                        'params' => array_combine(
+                            // Replace placeholders within route config
+                            preg_replace('/{|}/', '', $placeholders),
+                            $params
+                        ),
+                    ];
+                }
+            } else {
+
+                // static routes
+                if (isset($this->_routes[$uri])) {
+                    return [
+                        'route' => $this->_routes[$uri],
+                        'params' => null,
+                    ];
+                }
+            }
         }
+
+        // None matched
+        throw new NotFoundHttpException();
     }
+
 }
