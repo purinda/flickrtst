@@ -54,6 +54,9 @@ class Router
         $placeholder_regex = '/({[a-z0-9]+})\/?/';
         $uri = $_SERVER['REQUEST_URI'];
 
+        // Remove GET params from URI
+        $uri = strtok($uri, '?');
+
         // Special case for base path
         if ($uri == $this->_basepath) {
             return [

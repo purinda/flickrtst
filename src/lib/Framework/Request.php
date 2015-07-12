@@ -66,7 +66,7 @@ class Request
      */
     public function getParameter($parameter_name)
     {
-        return isset($this->_parameters[$parameter_name]) ?: false;
+        return isset($this->_parameters[$parameter_name]) ? $this->_parameters[$parameter_name] : null;
     }
 
     /**

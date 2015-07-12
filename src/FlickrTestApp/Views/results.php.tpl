@@ -8,10 +8,7 @@
     <title><?=$title?></title>
 </head>
 <body>
-    <form action="/search/" method="get">
-        <input type="search" name="query" required>
-        <button type="submit">Search</button>
-    </form>
+
 </body>
 
 </html>

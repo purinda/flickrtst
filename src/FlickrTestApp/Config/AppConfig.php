@@ -11,10 +11,7 @@ class AppConfig
         '/' => [
             'FlickrTestApp\\Controller\\HomeController' => 'index'
         ],
-        '/home' => [
-            'FlickrTestApp\\Controller\\HomeController' => 'index'
-        ],
-        '/search/{query}/{page}' => [
+        '/search/' => [
             'FlickrTestApp\\Controller\\SearchController' => 'search'
         ],
     ];
