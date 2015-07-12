@@ -9,7 +9,7 @@
 </head>
 <body>
     <form action="/search/" method="get">
-        <input type="search" name="query" required>
+        <input type="text" name="query" placeholder="Search..." required>
         <button type="submit">Search</button>
     </form>
 </body>

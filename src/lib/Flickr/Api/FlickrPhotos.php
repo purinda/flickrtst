@@ -4,7 +4,7 @@ namespace Flickr\Api;
 
 use Flickr\Exception\InvalidMediaTypeException;
 
-class Photos extends FlickrBase
+class FlickrPhotos extends FlickrBase
 {
 
     /**
@@ -51,12 +51,13 @@ class Photos extends FlickrBase
         }
 
         $params = [
-            'api_key'  => $this->getApiKey(),
-            'text'     => $text,
-            'media'    => $media_type,
-            'per_page' => $per_page,
-            'page'     => $page,
-            'format'   => parent::REQUEST_FORMAT,
+            'api_key'        => $this->getApiKey(),
+            'text'           => $text,
+            'media'          => $media_type,
+            'per_page'       => $per_page,
+            'page'           => $page,
+            'nojsoncallback' => 1,
+            'format'         => parent::REQUEST_FORMAT,
         ];
 
         return $this->callApi('flickr.photos.search', $params);
@@ -71,9 +72,10 @@ class Photos extends FlickrBase
     public function getSizes($photo_id)
     {
         $params = [
-            'api_key'  => $this->getApiKey(),
-            'photo_id' => $photo_id,
-            'format'   => parent::REQUEST_FORMAT,
+            'api_key'        => $this->getApiKey(),
+            'photo_id'       => $photo_id,
+            'format'         => parent::REQUEST_FORMAT,
+            'nojsoncallback' => 1,
         ];
 
         return $this->callApi('flickr.photos.getInfo', $params);
