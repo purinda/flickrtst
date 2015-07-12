@@ -35,7 +35,7 @@ class Photos extends FlickrBase
      * @param  string  $media_type
      * @param  integer $per_page
      * @param  integer $page
-     * @return array
+     * @return string
      */
     public function search($text, $media_type, $per_page, $page)
     {
@@ -59,23 +59,24 @@ class Photos extends FlickrBase
             'format'   => parent::REQUEST_FORMAT,
         ];
 
-        $get_url            = self::ENDPOINT . '?method=flickr.photos.search';
-        $encoded_url_params = http_build_query(array_map('urlencode', $params));
-
-        $json_response = file_get_contents($get_url . '&' . $encoded_url_params);
-
-        return $json_response;
+        return $this->callApi('flickr.photos.search', $params);
     }
 
     /**
      * Return available sizes of the photo requested.
      *
-     * @param  string $photo_id
-     * @return array
+     * @param  int   $photo_id
+     * @return string
      */
     public function getSizes($photo_id)
     {
-        // https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=45abdd3eaa75675f388576c42d826332&photo_id=19440297828
+        $params = [
+            'api_key'  => $this->getApiKey(),
+            'photo_id' => $photo_id,
+            'format'   => parent::REQUEST_FORMAT,
+        ];
+
+        return $this->callApi('flickr.photos.getInfo', $params);
     }
 
 }

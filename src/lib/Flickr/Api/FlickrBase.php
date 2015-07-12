@@ -44,4 +44,20 @@ abstract class FlickrBase
         return $this;
     }
 
+    /**
+     * Call Flickr API endpoint using the parameters and method.
+     *
+     * @param  string $method
+     * @param  array  $params
+     * @return string
+     */
+    protected function callApi($method, array $params)
+    {
+        $get_url = self::ENDPOINT . "?method=$method";
+        $encoded_url_params = http_build_query(array_map('urlencode', $params));
+
+        $json_response = file_get_contents($get_url . '&' . $encoded_url_params);
+        return $json_response;
+    }
+
 }
