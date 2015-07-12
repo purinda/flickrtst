@@ -16,7 +16,7 @@ class Request
     protected $_method     = '';
     protected $_content    = '';
 
-    public function __construct($uri, $method = METHOD_GET, array $parameters = [])
+    public function __construct($uri, $method = self::METHOD_GET, array $parameters = [])
     {
         $this->_uri = $uri;
 
