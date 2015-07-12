@@ -24,13 +24,28 @@ class SearchController extends AbstractController
 
         $photos = $photo_search->search($query, (int) $page);
 
+        // Build Prev|Next links
+        $prev = '/search/?' . http_build_query(
+            [
+                'query' => $query,
+                'page'  => ($page == 1) ?: (int) $page - 1,
+            ]
+        );
+
+        $next = '/search/?' . http_build_query(
+            [
+                'query' => $query,
+                'page'  => ($photos['total_pages'] == $page) ?: (int) $page + 1,
+            ]
+        );
+
         return $this->render(
             __DIR__ . '/../Views/results.php.tpl',
             [
                 'query'  => $query,
                 'photos' => $photos['items'],
-                'page'   => $photos['page'],
-                'pages'  => $photos['total_pages'],
+                'prev'   => $prev,
+                'next'   => $next,
             ]
         );
     }

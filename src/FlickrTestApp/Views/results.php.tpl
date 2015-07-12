@@ -18,14 +18,21 @@
             <tr>
             <?php
             foreach ($photos as $photo) {
+                $variations = $photo->getVariations();
+                $largest    = end($variations);
             ?>
+            <a href="<?=$largest->getSource()?>" target="_blank">
                 <img src="<?=$photo->getVariation('Square')->getSource()?>">
+            </a>
             <?php
             }
             ?>
             </tr>
         </tbody>
     </table>
+
+    <a href="<?=$prev?>">Previous</a>
+    <a href="<?=$next?>">Next</a>
 </body>
 
 </html>
