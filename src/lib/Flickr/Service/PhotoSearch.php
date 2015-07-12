@@ -34,7 +34,8 @@ class PhotoSearch
 
     /**
      * Return an array of PhotoVariation objects matching the
-     * search criteria.
+     * search criteria. PhotoVariation object contains size variations and
+     * URLs to the image variations.
      *
      * @param  string  $query
      * @param  int     $page_size
@@ -43,8 +44,23 @@ class PhotoSearch
      */
     public function search($query, $page_size = self::PER_PAGE, $page = 1)
     {
-        $json = $this->_photos->search($query, FlickrPhotos::MEDIATYPE_PHOTOS, $page_size, $page);
-        return $json;
+        $json    = $this->_photos->search($query, FlickrPhotos::MEDIATYPE_PHOTOS, $page_size, $page);
+        $results = json_decode($json)->photos;
+
+        // Return null if no search results found
+        if ($results->total <= 0) {
+            return null;
+        }
+
+        $photos = [];
+
+        foreach ($results->photo as $photo) {
+            $var_json = $this->_photos->getSizes($photo->id);
+            $variations = json_decode($var_json);
+
+            $photo_variation = new PhotoVariation($photo->id);
+            $photo_variation->setTitle($photo->title);
+        }
     }
 
 }

@@ -78,7 +78,7 @@ class FlickrPhotos extends FlickrBase
             'nojsoncallback' => 1,
         ];
 
-        return $this->callApi('flickr.photos.getInfo', $params);
+        return $this->callApi('flickr.photos.getSizes', $params);
     }
 
 }

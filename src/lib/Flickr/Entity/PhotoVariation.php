@@ -2,7 +2,7 @@
 
 namespace Flickr\Entity;
 
-class PhotoVariation extends Photo
+class PhotoVariation
 {
 
     /**
@@ -36,13 +36,14 @@ class PhotoVariation extends Photo
     protected $_url;
 
     /**
-     * Instantiate PhotoVariation object
+     * Instantiate PhotoVariation object.
+     * Accepts size label as an argument.
      *
-     * @param int $photo_id Flickr photo id
+     * @param string $label
      */
-    public function __construct($photo_id)
+    public function __construct($label)
     {
-        parent::__construct($photo_id);
+        $this->_label = $label;
     }
 
     /**
