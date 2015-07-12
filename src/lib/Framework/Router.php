@@ -15,21 +15,21 @@ class Router
      */
     public function __construct(array $routes = [])
     {
-        foreach ($routes as $route_name => $callback) {
-            $this->map($route_name, $callback);
+        foreach ($routes as $route_name => $controller_action) {
+            $this->map($route_name, $controller_action);
         }
     }
 
     /**
-     * Add custom route with the callback to be run.
+     * Add custom route with the controller action to be run.
      *
-     * @param  string   $route_name
-     * @param  callable $callback
+     * @param  string $route_name
+     * @param  array  $controller_action
      * @return Router
      */
-    public function map($route_name, callable $callback)
+    public function map($route_name, $controller_action)
     {
-        $this->_routes[$route_name] = $callback;
+        $this->_routes[$route_name] = $controller_action;
         return $this;
     }
 
@@ -53,11 +53,15 @@ class Router
     public function match()
     {
         if (isset($_SERVER['REQUEST_URI'])) {
-            $p = $_SERVER['REQUEST_URI'];
+            $path = $_SERVER['REQUEST_URI'];
         } else {
-            $p = self::BASEPATH;
+            $path = self::BASEPATH;
         }
 
-        $this->_routes[$p]();
+        if (isset($this->_routes[$path])) {
+            return $this->_routes[$path];
+        } else {
+            throw new NotFoundHttpException();
+        }
     }
 }

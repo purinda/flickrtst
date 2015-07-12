@@ -18,17 +18,19 @@ if (!is_readable(APP_CONFIG)) {
     die('No application configuration found. Please create an application configuration in ' . APP_CONFIG);
 }
 
-Request::fromCurrent();
+// Setup routes from AppConfig
+$router = new Router(AppConfig::$routes);
 
-// Setup routes from FlickrTestApp\\Config\\AppConfig
-var_dump(AppConfig::$routes);
-
-
-$router   = new Router();
+// URL resolver
 $resolver = Resolver::build($router);
-$request  = Request::fromCurrent();
+
+// Build the current request to be served
+$request = Request::fromCurrent();
+
+// Built response object
 $response = $resolver->handle($request);
 
+// Dispatch the response
 $response->dispatch();
 
 var_dump($_SERVER, $_GET, $_POST);

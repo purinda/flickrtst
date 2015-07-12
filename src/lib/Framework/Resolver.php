@@ -37,7 +37,9 @@ class Resolver
      */
     public function handle(Request $request)
     {
+        $route = $this->_router->match();
 
+        var_dump($route);
         return new Response();
     }
 }
