@@ -2,14 +2,17 @@
 
 namespace FlickrTestApp\Controller;
 
+use FlickrTestApp\Config\AppConfig;
 use Framework\AbstractController;
-use Framework\Response;
+use Flickr\Api\Photos;
 
 class HomeController extends AbstractController
 {
     public function indexAction()
     {
-        return $this->render(__DIR__ . '/../Views/home.php.tpl', ['test' => 'Hello']);
+        $photos = new Photos(AppConfig::FLICKR_API_KEY);
+        die(var_dump($photos->search('panda', 'photos', 5, 1)));
+        return $this->render(__DIR__ . '/../Views/home.php.tpl', ['test' => 'Hesssllo']);
     }
 
 }

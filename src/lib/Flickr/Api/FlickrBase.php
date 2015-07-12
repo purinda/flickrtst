@@ -4,6 +4,15 @@ namespace Flickr\Api;
 
 abstract class FlickrBase
 {
+    /**
+     * Flickr API endpoint
+     */
+    const ENDPOINT = 'https://api.flickr.com/services/rest/';
+
+    /**
+     * API request format used
+     */
+    const REQUEST_FORMAT = 'json';
 
     /**
      * Your API application key.
