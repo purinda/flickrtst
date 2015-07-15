@@ -16,7 +16,7 @@ class SearchController extends AbstractController
      */
     public function searchAction()
     {
-        $query = $this->request->getParameter('query');
+        $query = htmlspecialchars($this->request->getParameter('query'));
         $page  = $this->request->getParameter('page');
 
         $flickr_photos = new FlickrPhotos(AppConfig::FLICKR_API_KEY);
