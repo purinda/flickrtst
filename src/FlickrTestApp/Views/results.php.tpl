@@ -17,13 +17,21 @@
         <tbody>
             <tr>
             <?php
-            foreach ($photos as $photo) {
-                $variations = $photo->getVariations();
-                $largest    = end($variations);
+            if (!empty($photos)) {
+                foreach ($photos as $photo) {
+                    $variations = $photo->getVariations();
+                    $largest    = end($variations);
+                ?>
+                <td>
+                    <a href="<?=$largest->getSource()?>" target="_blank">
+                        <img src="<?=$photo->getVariation('Square')->getSource()?>">
+                    </a>
+                </td>
+                <?php
+                }
+            } else {
             ?>
-            <a href="<?=$largest->getSource()?>" target="_blank">
-                <img src="<?=$photo->getVariation('Square')->getSource()?>">
-            </a>
+                <strong>No results found</strong>
             <?php
             }
             ?>
